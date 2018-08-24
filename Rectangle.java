@@ -121,7 +121,7 @@ public class Rectangle
      * @param color
      * @param isBorder 
      */
-    public Rectangle(JPanel board ,
+    public Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     boolean isRaised ,
                     Color color ,
@@ -148,7 +148,7 @@ public class Rectangle
      * @param color
      * @param isBorder 
      */
-    public Rectangle(JPanel board ,
+    public Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     Color color ,
                     boolean isBorder){
@@ -175,7 +175,7 @@ public class Rectangle
      * @param color
      * @param isBorder 
      */
-    public Rectangle(JPanel board ,
+    public Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     int arcWidth , int arcHeight ,
                     Color color ,
@@ -204,7 +204,7 @@ public class Rectangle
      * @param isRaised
      * @param color 
      */
-    public Rectangle(JPanel board ,
+    public Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     boolean isRaised ,
                     Color color){
@@ -227,7 +227,7 @@ public class Rectangle
      * @param height
      * @param color 
      */
-    public Rectangle(JPanel board ,
+    public Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     Color color){
         
@@ -250,7 +250,7 @@ public class Rectangle
      * @param arcHeight
      * @param color 
      */
-    public Rectangle(JPanel board ,
+    public Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     int arcWidth , int arcHeight ,
                     Color color){

@@ -50,7 +50,8 @@ public class Main
     public Main(){
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600 , 600);
+        setSize(700 , 800);
+        setResizable(false);
         add(new Board(this));
         setVisible(true);      
     }

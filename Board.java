@@ -35,16 +35,22 @@ import javax.swing.JPanel;
  * @author TEBMahani(Tayebeh Esmaeili Beigi Mahani)
  *
  * The <code>Board</code> class is a subclass of JPanel which is used to encapsulate a JPanel with shapes which draws on it.
+ * Shapes can move on this board.
  *
  * Constructor Summary:
  * Board()
  * Board(JFrame frame)
  *
  * Method Summary:
+ * addNotify()
+ * getFrame()
+ * move()
  * paint(Graphics g)
+ * run()
  */
 public class Board
-                    extends JPanel{
+                    extends JPanel
+                    implements Runnable{
 
 // Static Final Values
 
@@ -66,19 +72,11 @@ public class Board
                         g2;
     protected JFrame
                     frame;
+    private Thread
+                    animatorThread;
 
-    private Shape
-                    borderOval ,
-
-                    border3DRectangle ,
-                    borderRectangle ,
-                    borderRoundRectangle ,
-
-                    oval ,
-
-                    rect3D ,
-                    rectangle ,
-                    roundRect;
+    private Shape                    
+                    oval;
 
 // *************************************************************
 
@@ -108,83 +106,16 @@ public class Board
     public Board(JFrame frame){
 
         this.frame = frame;
-
         int
-                rectangleArcHeight = 20 ,
-                rectangleArcWidth = 10 ,
-                rectangleHeight = 50 ,
-                rectangleWidth = 30;
-        int
-                ovalHeight = 50 ,
-                ovalWidth = 30;
-
-// Creates Colored-Border Ovals
-
-        // Creates a red border-colored circle with ovalWidth as its dim
-                                            // under pink full-colored oval.
-        borderOval = new Oval(this ,
-                                0 , ovalHeight , ovalWidth , ovalWidth ,
-                                Color.red ,
-                                true);
-
-// Creates Colored-Border Rectangles
-
-        // Creates a darkGreen border_colored 3DRectangle with rectangleWidth as its width
-                                                        // and rectangleHeight as its height
-                                                        // which sits on green full-colored rectangle.
-        border3DRectangle = new Rectangle(this ,
-                                            0 , frame.getHeight()-(3*rectangleHeight)-3 , rectangleWidth , rectangleHeight ,
-                                            true ,
-                                            Color.green.darker() ,
-                                            true);
-        // Creates a red boarder-color rectangle with rectangleWidth+1 as its width (+1 is to be greater than its contained rectangle)
-                                               // and rectangleHeight+1 as its height (+1 is to be greater than its contained rectangle)
-                                               //in last left-down of frame
-                                               // which contains cyan full-colored rectangle.
-        borderRectangle = new Rectangle(this ,
-                                        0 , frame.getHeight()-rectangleHeight-2 , rectangleWidth+1 , rectangleHeight+1 ,
-                                        Color.red ,
-                                        true);
-        // Creates a white border-color roundRectangle with rectangleWidth as its width
-                                                     // and rectangleHeight as its height
-                                                     // which sits on white full-colored roundRectangle.
-        borderRoundRectangle = new Rectangle(this ,
-                                            frame.getWidth()-rectangleWidth , frame.getHeight()-(2*rectangleHeight) , rectangleWidth , rectangleHeight ,
-                                            rectangleArcWidth , rectangleArcHeight ,
-                                            Color.white ,
-                                            true);
-
+                ovalDim = 50;
+        
 //Creates Full-Colored Oval
 
-        //Creates a pink full-colored oval with ovalWidth as its width,
-                                    // and ovalHeight as its height
+        //Creates a yellow full-colored circle with ovalDim as its dim,
                                     // which sits on first right-top of frame.
         oval = new Oval(this ,
-                        0 , 0 , ovalWidth , ovalHeight ,
-                        Color.pink);
-
-// Creates Full-Colored Rectangles
-
-        //Creates a green full-colored 3DRectangle with rectangleWidth as its width
-                                                 // and rectangleHeight as its height
-                                                 // which sits on cyan full-colored rectangle.
-        rect3D = new Rectangle(this ,
-                                0 , frame.getHeight()-(2*rectangleHeight)-2 , rectangleWidth , rectangleHeight ,
-                                true ,
-                                Color.green);
-        // Creates a cyan full-colored rectangle with rectangleWidth as its width
-                                               // and rectangleHeight as its height
-                                               // which sits into red boarder-color rectangle.
-        rectangle = new Rectangle(this ,
-                                    0+1 , frame.getHeight()-rectangleHeight-1 , rectangleWidth , rectangleHeight ,
-                                    Color.cyan);
-        //Creates a white full-colored roundRectangle with rectangleWidth as its width
-                                                    // and rectangleHeight as its height
-                                                    // which sits in last right-down of frame.
-        roundRect = new Rectangle(this ,
-                                    frame.getWidth()-rectangleWidth , frame.getHeight()-rectangleHeight-1 , rectangleWidth , rectangleHeight ,
-                                    rectangleArcWidth , rectangleArcHeight ,
-                                    Color.white);
+                        0 , 0 , ovalDim , ovalDim ,
+                        Color.yellow);
 
         try {
             backGround = ImageIO.read(new File("images/background.jpg"));
@@ -196,6 +127,39 @@ public class Board
 // *************************************************************
 
 // Methods
+    
+    /**
+     * Notifies this component that it now has a parent component.
+     * When this method is invoked, the chain of parent components is
+     * set up with <code>KeyboardAction</code> event listeners.
+     * This method is called by the toolkit internally and should
+     * not be called directly by programs.
+     * Create a thread for this object and start it.
+     *
+     * @see #registerKeyboardAction
+     */
+    public void addNotify(){
+        
+        super.addNotify();
+        
+        animatorThread = new Thread(this);
+        animatorThread.start();
+    }
+    
+    /**
+     * Returns JFrame which this Board is added to it
+     * @return 
+     */
+    public JFrame getFrame(){
+        return frame;
+    }
+    
+    /**
+     * Invoke move() method of all of the shapes
+     */
+    public void move(){
+        oval.move();
+    }
 
     /**
      * It puts an image as background of this JPanel.
@@ -212,16 +176,30 @@ public class Board
                         0, 0 ,
                         null);
 
-        borderOval.paint(g);
-
-        border3DRectangle.paint(g);
-        borderRectangle.paint(g);
-        borderRoundRectangle.paint(g);
-
         oval.paint(g);
-
-        rect3D.paint(g);
-        rectangle.paint(g);
-        roundRect.paint(g);
+    }
+    
+    /**
+     * Starting the thread causes the board's
+     * <code>run</code> method to be called in that separately executing
+     * thread.
+     * Invokes repaint() and move() methods which causes changed position of shape on board and update the page.
+     * <p>
+     * The general contract of the method <code>run</code> is that it may
+     * take any action whatsoever.
+     *
+     * @see     java.lang.Thread#run()
+     */
+    public void run(){
+        
+        while(true){
+            repaint();
+            move();
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

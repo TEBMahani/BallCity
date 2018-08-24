@@ -36,6 +36,8 @@ import javax.swing.JPanel;
             Color color)
  *
  * Method Summary:
+ * IsValidMove()
+ * move()
  * paint(Graphics g)
  * setColor(Color color)
  */
@@ -60,13 +62,16 @@ public class Shape {
                     y ,
                     width ,
                     height ;
+    protected int
+                    moveX ,
+                    moveY;
     
     protected Color
                     color;
     protected Graphics2D
                         g2;
     
-    protected JPanel
+    protected Board
                     board;
 
 // *************************************************************
@@ -88,7 +93,7 @@ public class Shape {
      * @param height
      * @param color 
      */
-    public Shape(JPanel board ,
+    public Shape(Board board ,
                 int x , int y , int width , int height ,
                 Color color){
         
@@ -97,6 +102,9 @@ public class Shape {
         this.width = width;
         this.height = height;
         
+        this.moveX = 1;
+        this.moveY = 1;
+        
         this.board = board;
         this.color = color;
     }
@@ -104,6 +112,42 @@ public class Shape {
 // *************************************************************
 
 // Methods
+    
+    /**
+     * Varify if shape moves inside of frame or not.
+     * @return if shape is moving inside of frame it returns true, otherwise it returns false.
+     */
+    public boolean IsValidMove(){
+        if(((x+moveX)>board.getFrame().getWidth()-width) ||
+                ((x+moveX)<0) ||
+                ((y+moveY)>board.getFrame().getHeight()-height) ||
+                (y+moveY)<0){
+            return false;
+        } else{
+            return true;
+        }        
+    }
+    
+    /**
+     * Specify a default move for shape
+     */
+    public void move(){
+        if(!IsValidMove()){
+            if(((x+moveX)>board.getFrame().getWidth()-width)){
+                moveX = -1;
+            } else if((x+moveX)<0){
+                moveX = 1;
+            }
+            if(((y+moveY)>board.getFrame().getHeight()-height)){
+                moveY = -1;
+            } else if((y+moveY)<0){
+                moveY = 1;
+            }
+        }
+        
+        x += moveX;
+        y += moveY;
+    }
     
     /**
      * It used to prepare graphic's environment for drawing children-shapes.

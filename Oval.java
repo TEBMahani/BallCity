@@ -90,7 +90,7 @@ public class Oval
      * @param color
      * @param isBorder 
      */
-    public Oval(JPanel board ,
+    public Oval(Board board ,
                 int x , int y , int width , int height ,
                 Color color ,
                 boolean isBorder){
@@ -115,7 +115,7 @@ public class Oval
      * @param height
      * @param color 
      */
-    public Oval(JPanel board ,
+    public Oval(Board board ,
                 int x , int y , int width , int height ,
                 Color color){
         
