@@ -20,6 +20,7 @@ package mathematicianshape;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
@@ -36,6 +37,7 @@ import javax.swing.JPanel;
             Color color)
  *
  * Method Summary:
+ * getBounds()
  * IsValidMove()
  * move()
  * paint(Graphics g)
@@ -64,7 +66,7 @@ public class Shape {
                     height ;
     protected int
                     moveX ,
-                    moveY;
+                    moveY ;
     
     protected Color
                     color;
@@ -114,7 +116,15 @@ public class Shape {
 // Methods
     
     /**
-     * Varify if shape moves inside of frame or not.
+     * Create a rectangle object of java.awt.Rectangle package which specifies bounds of shape and return it
+     * @return 
+     */
+    public Rectangle getBounds(){
+        return new Rectangle(x , y , width , height);
+    }
+    
+    /**
+     * Verify if shape moves inside of frame or not.
      * @return if shape is moving inside of frame it returns true, otherwise it returns false.
      */
     public boolean IsValidMove(){

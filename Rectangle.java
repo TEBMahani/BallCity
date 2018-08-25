@@ -32,18 +32,18 @@ import javax.swing.JPanel;
  * 
  *  border rectangles :
  *  ** colored-border 3DRectangle
- * Rectangle(JPanel board ,
+ * Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     boolean isRaised ,
                     Color color ,
                     boolean isBorder)
  * ** colored-border rectangle
- * Rectangle(JPanel board ,
+ * Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     Color color ,
                     boolean isBorder)
  * ** colored-border roundRectangle
- * Rectangle(JPanel board ,
+ * Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     int arcWidth , int arcHeight ,
                     Color color ,
@@ -51,16 +51,16 @@ import javax.swing.JPanel;
  *
  * full-colored rectangles :
  * ** full-colored 3DRectangle
- * Rectangle(JPanel board ,
+ * Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     boolean isRaised ,
                     Color color)
  * ** full-colored rectangle
- * Rectangle(JPanel board ,
+ * Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     Color color)
  * ** full-colored roundRectangle
- * Rectangle(JPanel board ,
+ * Rectangle(Board board ,
                     int x , int y , int width , int height ,
                     int arcWidth , int arcHeight ,
                     Color color)

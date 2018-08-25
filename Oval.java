@@ -32,14 +32,14 @@ import javax.swing.JPanel;
  * 
  * border ovals :
  * **colored-border ovals
- * Oval(JPanel board ,
+ * Oval(Board board ,
             int x , int y , int width , int height ,
             Color color ,
             boolean isBorder)
  * 
  * full-colored ovals:
  * ** full-colored ovals
- * Oval(JPanel board ,
+ * Oval(Board board ,
                 int x , int y , int width , int height ,
                 Color color)
  *
@@ -126,7 +126,7 @@ public class Oval
 
 // *************************************************************
 
-// Methods
+// Methods    
     
     /**
      * It draws oval base on type of it which is specified by isBorder.

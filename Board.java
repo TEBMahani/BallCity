@@ -21,6 +21,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -44,15 +46,31 @@ import javax.swing.JPanel;
  * Method Summary:
  * addNotify()
  * getFrame()
+ * getRocketHeightMarginLeftRight()
+ * getRocketHeightMarginUpDown()
+ * getRocketWidthMarginLeftRight()
+ * getRocketWidthMarginUpDown()
+ * keyPressed(KeyEvent keyEvent)
+ * keyReleased(KeyEvent keyEvent)
+ * keyTyped(KeyEvent keyEvent)
  * move()
  * paint(Graphics g)
  * run()
+ * setRocketHeightMarginLeftRight(int rocketHeightMarginLeftRight)
+ * setRocketHeightMarginUpDown(int rocketHeightMarginUpDown)
+ * setRocketWidthMarginLeftRight(int rocketWidthMarginLeftRight)
+ * setRocketWidthMarginUpDown(int rocketWidthMarginUpDown)
  */
 public class Board
                     extends JPanel
-                    implements Runnable{
+                    implements KeyListener ,
+                                Runnable{
 
 // Static Final Values
+    
+    private static final int
+                            PLAYER1 = 1 ,
+                            PLAYER2 = 2;
 
 // *************************************************************
 
@@ -65,18 +83,26 @@ public class Board
 // *************************************************************
 
 // Fields
+    
+    private int
+                rocketWidthMarginUpDown , rocketHeightMarginLeftRight ,
+                rocketHeightMarginUpDown , rocketWidthMarginLeftRight;
 
-    protected BufferedImage
+    private BufferedImage
                             backGround;
-    protected Graphics2D
+    private Graphics2D
                         g2;
-    protected JFrame
+    private JFrame
                     frame;
     private Thread
                     animatorThread;
 
     private Shape                    
-                    oval;
+                    oval ,
+                    rocketUpDownPlayer1 ,
+                    rocketUpDownPlayer2 ,
+                    rocketLeftRightPlayer1 ,
+                    rocketLeftRightPlayer2;
 
 // *************************************************************
 
@@ -89,25 +115,33 @@ public class Board
 
     /**
      * Constructs a new <code>Board</code> object.
-     * It creates these objects and paints them on this JPanel:
-     *  borderOval
-     *
-     *  border3DRectangle ,
-     *  borderRectangle ,
-     *  borderRoundRectangle ,
-     *
+     * It creates these objects:     *
      *  oval ,
-     *
-     *  rect3D ,
-     *  rectangle ,
-     *  roundRect
+     *  rocketUpDownPlayer1 ,
+     *  rocketUpDownPlayer2 ,
+     *  rocketLeftRightPlayer1 ,
+     *  rocketLeftRightPlayer2     * 
      * @param frame
      */
     public Board(JFrame frame){
 
         this.frame = frame;
+        frame.addKeyListener(this);
+        
         int
                 ovalDim = 50;
+        int
+                rocketArcHeightUpDown , rocketArcWidthLeftRight ,
+                rocketArcWidthUpDown , rocketArcHeightLeftRight ,
+                rocketHeightUpDown , rocketWidthLeftRight ,
+                rocketWidthUpDown , rocketHeightLeftRight ;
+        rocketArcHeightUpDown = rocketArcWidthLeftRight = 5;
+        rocketArcWidthUpDown = rocketArcHeightLeftRight = 5;
+        rocketHeightUpDown = rocketWidthLeftRight = 70;
+        rocketWidthUpDown = rocketHeightLeftRight = 10;
+        
+        rocketWidthMarginUpDown = rocketHeightMarginLeftRight = 20;
+        rocketHeightMarginUpDown = rocketWidthMarginLeftRight = 20;
         
 //Creates Full-Colored Oval
 
@@ -116,6 +150,28 @@ public class Board
         oval = new Oval(this ,
                         0 , 0 , ovalDim , ovalDim ,
                         Color.yellow);
+        
+        rocketUpDownPlayer1 = new RocketUpDown(this ,
+                                                frame.getWidth()-(rocketWidthUpDown+rocketWidthMarginUpDown) , frame.getHeight()-(rocketHeightUpDown+rocketHeightMarginUpDown) , rocketWidthUpDown , rocketHeightUpDown ,
+                                                rocketArcWidthUpDown , rocketArcHeightUpDown , 
+                                                Color.yellow ,
+                                                PLAYER1);
+        rocketUpDownPlayer2 = new RocketUpDown(this ,
+                                            0+rocketWidthMarginUpDown , 0+rocketHeightMarginUpDown , rocketWidthUpDown , rocketHeightUpDown ,
+                                            rocketArcWidthUpDown , rocketArcHeightUpDown ,
+                                            Color.magenta ,
+                                            PLAYER2);
+
+        rocketLeftRightPlayer1 = new RocketLeftRight(this ,
+                                                    frame.getWidth()-(rocketWidthLeftRight+rocketWidthMarginLeftRight) , frame.getHeight()-(rocketHeightLeftRight+rocketHeightMarginLeftRight) , rocketWidthLeftRight , rocketHeightLeftRight ,
+                                                    rocketArcWidthLeftRight , rocketArcHeightLeftRight ,
+                                                    Color.yellow ,
+                                                    PLAYER1);
+        rocketLeftRightPlayer2 = new RocketLeftRight(this ,
+                                                    0+rocketWidthMarginLeftRight , 0+rocketHeightMarginLeftRight , rocketWidthLeftRight , rocketHeightLeftRight ,
+                                                    rocketArcWidthLeftRight , rocketArcHeightLeftRight ,
+                                                    Color.magenta ,
+                                                    PLAYER2);
 
         try {
             backGround = ImageIO.read(new File("images/background.jpg"));
@@ -152,13 +208,88 @@ public class Board
      */
     public JFrame getFrame(){
         return frame;
+    } 
+    
+    /**
+     * Returns margin of height of both left_right rockets of player1 & player2 from both sides of frame
+     * @return 
+     */
+    public int getRocketHeightMarginLeftRight(){
+        
+        return rocketHeightMarginLeftRight;
     }
+    
+    /**
+     * Returns margin of height of both up_down rockets of player1 & player2 from both sides of frame
+     * @return 
+     */
+    public int getRocketHeightMarginUpDown(){
+        
+        return rocketHeightMarginUpDown;
+    }
+    
+    /**
+     * Returns margin of width of both left_right rockets of player1 & player2 from both sides of frame
+     * @return 
+     */
+    public int getRocketWidthMarginLeftRight(){
+        
+        return rocketWidthMarginLeftRight;
+    }
+    
+    /**
+     * Returns margin of width of both up_down rockets of player1 & player2 from both sides of frame
+     * @return 
+     */
+    public int getRocketWidthMarginUpDown(){
+        
+        return rocketWidthMarginUpDown;
+    }
+    
+    /**
+     * Invoke keyPressed method of all of classes.
+     * @param keyEvent 
+     */
+    public void keyPressed(KeyEvent keyEvent){
+        
+        ((RocketUpDown)rocketUpDownPlayer1).keyPressed(keyEvent);
+        ((RocketUpDown)rocketUpDownPlayer2).keyPressed(keyEvent);
+        
+        ((RocketLeftRight)rocketLeftRightPlayer1).keyPressed(keyEvent);
+        ((RocketLeftRight)rocketLeftRightPlayer2).keyPressed(keyEvent);
+    }
+    
+    /**
+     * Invoke keyReleased method of all of classes
+     * @param keyEvent 
+     */
+    public void keyReleased(KeyEvent keyEvent){
+        
+        ((RocketUpDown)rocketUpDownPlayer1).keyReleased(keyEvent);
+        ((RocketUpDown)rocketUpDownPlayer2).keyReleased(keyEvent);
+        
+        ((RocketLeftRight)rocketLeftRightPlayer1).keyReleased(keyEvent);
+        ((RocketLeftRight)rocketLeftRightPlayer2).keyReleased(keyEvent);
+    }
+    
+    /**
+     * I just had to implement it because I did not want to use KeyAdapter! ;)
+     * @param keyEvent 
+     */
+    public void keyTyped(KeyEvent keyEvent){}
     
     /**
      * Invoke move() method of all of the shapes
      */
     public void move(){
+        
         oval.move();
+        
+        rocketUpDownPlayer1.move();
+        rocketUpDownPlayer2.move();
+        
+        rocketLeftRightPlayer1.move();
+        rocketLeftRightPlayer2.move();
     }
 
     /**
@@ -177,6 +308,12 @@ public class Board
                         null);
 
         oval.paint(g);
+        
+        rocketUpDownPlayer1.paint(g);
+        rocketUpDownPlayer2.paint(g);
+        
+        rocketLeftRightPlayer1.paint(g);
+        rocketLeftRightPlayer2.paint(g);
     }
     
     /**
@@ -201,5 +338,41 @@ public class Board
                 Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    /**
+     * sets margin of height of both left_right rockets of player1 & player2 from both sides of frame
+     * @param rocketHeightMarginLeftRight 
+     */
+    public void setRocketHeightMarginLeftRight(int rocketHeightMarginLeftRight){
+        
+        this.rocketHeightMarginLeftRight = rocketHeightMarginLeftRight;
+    }
+    
+    /**
+     * sets margin of height of both up_down rockets of player1 & player2 from both sides of frame
+     * @param rocketHeightMarginUpDown 
+     */
+    public void setRocketHeightMarginUpDown(int rocketHeightMarginUpDown){
+        
+        this.rocketHeightMarginUpDown = rocketHeightMarginUpDown;
+    }    
+    
+    /**
+     * sets margin of width of both left_right rockets of player1 & player2 from both sides of frame
+     * @param rocketWidthMarginLeftRight 
+     */
+    public void setRocketWidthMarginLeftRight(int rocketWidthMarginLeftRight){
+        
+        this.rocketWidthMarginLeftRight = rocketWidthMarginLeftRight;
+    }
+    
+    /**
+     * sets margin of width of both up_down rockets of player1 & player2 from both sides of frame
+     * @param rocketWidthMarginUpDown 
+     */
+    public void setRocketWidthMarginUpDown(int rocketWidthMarginUpDown){
+        
+        this.rocketWidthMarginUpDown = rocketWidthMarginUpDown;
     }
 }
