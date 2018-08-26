@@ -36,7 +36,8 @@ import javax.swing.JPanel;
  *
  * @author TEBMahani(Tayebeh Esmaeili Beigi Mahani)
  *
- * The <code>Board</code> class is a subclass of JPanel which is used to encapsulate a JPanel with shapes which draws on it.
+ * The <code>Board</code> class is a subclass of JPanel which is used to
+ * encapsulate a JPanel with shapes which draws on it.
  * Shapes can move on this board.
  *
  * Constructor Summary:
@@ -45,9 +46,14 @@ import javax.swing.JPanel;
  *
  * Method Summary:
  * addNotify()
+ * getBall()
  * getFrame()
  * getRocketHeightMarginLeftRight()
  * getRocketHeightMarginUpDown()
+ * getRocketLeftRightPlayer1()
+ * getRocketLeftRightPlayer2()
+ * getRocketUpDownPlayer1()
+ * getRocketUpDownPlayer2()
  * getRocketWidthMarginLeftRight()
  * getRocketWidthMarginUpDown()
  * keyPressed(KeyEvent keyEvent)
@@ -71,6 +77,12 @@ public class Board
     private static final int
                             PLAYER1 = 1 ,
                             PLAYER2 = 2;
+    
+    public static final int
+                            ROCKET_LEFT_RIGHT_PLAYER1 = 1 ,
+                            ROCKET_LEFT_RIGHT_PLAYER2 = 2 ,
+                            ROCKET_UP_DOWN_PLAYER1 = 3,
+                            ROCKET_UP_DOWN_PLAYER2 = 4;
 
 // *************************************************************
 
@@ -98,11 +110,11 @@ public class Board
                     animatorThread;
 
     private Shape                    
-                    oval ,
-                    rocketUpDownPlayer1 ,
-                    rocketUpDownPlayer2 ,
+                    ball ,
                     rocketLeftRightPlayer1 ,
-                    rocketLeftRightPlayer2;
+                    rocketLeftRightPlayer2 ,
+                    rocketUpDownPlayer1 ,
+                    rocketUpDownPlayer2;
 
 // *************************************************************
 
@@ -115,12 +127,12 @@ public class Board
 
     /**
      * Constructs a new <code>Board</code> object.
-     * It creates these objects:     *
-     *  oval ,
-     *  rocketUpDownPlayer1 ,
-     *  rocketUpDownPlayer2 ,
+     * It creates these objects:
+     *  ball ,
      *  rocketLeftRightPlayer1 ,
-     *  rocketLeftRightPlayer2     * 
+     *  rocketLeftRightPlayer2
+     *  rocketUpDownPlayer1 ,
+     *  rocketUpDownPlayer2  
      * @param frame
      */
     public Board(JFrame frame){
@@ -129,7 +141,7 @@ public class Board
         frame.addKeyListener(this);
         
         int
-                ovalDim = 50;
+                ballDim = 10;
         int
                 rocketArcHeightUpDown , rocketArcWidthLeftRight ,
                 rocketArcWidthUpDown , rocketArcHeightLeftRight ,
@@ -147,31 +159,35 @@ public class Board
 
         //Creates a yellow full-colored circle with ovalDim as its dim,
                                     // which sits on first right-top of frame.
-        oval = new Oval(this ,
-                        0 , 0 , ovalDim , ovalDim ,
-                        Color.yellow);
-        
-        rocketUpDownPlayer1 = new RocketUpDown(this ,
-                                                frame.getWidth()-(rocketWidthUpDown+rocketWidthMarginUpDown) , frame.getHeight()-(rocketHeightUpDown+rocketHeightMarginUpDown) , rocketWidthUpDown , rocketHeightUpDown ,
-                                                rocketArcWidthUpDown , rocketArcHeightUpDown , 
-                                                Color.yellow ,
-                                                PLAYER1);
-        rocketUpDownPlayer2 = new RocketUpDown(this ,
-                                            0+rocketWidthMarginUpDown , 0+rocketHeightMarginUpDown , rocketWidthUpDown , rocketHeightUpDown ,
-                                            rocketArcWidthUpDown , rocketArcHeightUpDown ,
-                                            Color.magenta ,
-                                            PLAYER2);
+        ball = new Ball(this ,
+                        (frame.getWidth()/2) , (frame.getHeight()/2) , ballDim , ballDim ,
+                        Color.white);      
+//Creates Rockets of players
 
+        //Create a rocket for palyer1 which moves to left and right
         rocketLeftRightPlayer1 = new RocketLeftRight(this ,
                                                     frame.getWidth()-(rocketWidthLeftRight+rocketWidthMarginLeftRight) , frame.getHeight()-(rocketHeightLeftRight+rocketHeightMarginLeftRight) , rocketWidthLeftRight , rocketHeightLeftRight ,
                                                     rocketArcWidthLeftRight , rocketArcHeightLeftRight ,
                                                     Color.yellow ,
                                                     PLAYER1);
+        //Create a rocket for palyer2 which moves to left and right
         rocketLeftRightPlayer2 = new RocketLeftRight(this ,
                                                     0+rocketWidthMarginLeftRight , 0+rocketHeightMarginLeftRight , rocketWidthLeftRight , rocketHeightLeftRight ,
                                                     rocketArcWidthLeftRight , rocketArcHeightLeftRight ,
                                                     Color.magenta ,
                                                     PLAYER2);
+        //Create a rocket for palyer1 which moves to up and down
+        rocketUpDownPlayer1 = new RocketUpDown(this ,
+                                                frame.getWidth()-(rocketWidthUpDown+rocketWidthMarginUpDown) , frame.getHeight()-(rocketHeightUpDown+rocketHeightMarginUpDown) , rocketWidthUpDown , rocketHeightUpDown ,
+                                                rocketArcWidthUpDown , rocketArcHeightUpDown , 
+                                                Color.yellow ,
+                                                PLAYER1);
+        //Create a rocket for palyer2 which moves to up and down
+        rocketUpDownPlayer2 = new RocketUpDown(this ,
+                                            0+rocketWidthMarginUpDown , 0+rocketHeightMarginUpDown , rocketWidthUpDown , rocketHeightUpDown ,
+                                            rocketArcWidthUpDown , rocketArcHeightUpDown ,
+                                            Color.magenta ,
+                                            PLAYER2);
 
         try {
             backGround = ImageIO.read(new File("images/background.jpg"));
@@ -203,12 +219,57 @@ public class Board
     }
     
     /**
+     * Returns the Ball object which we created in this class
+     * @return 
+     */
+    public Shape getBall(){
+        
+        return ball;
+    }
+    
+    /**
      * Returns JFrame which this Board is added to it
      * @return 
      */
     public JFrame getFrame(){
         return frame;
-    } 
+    }
+    
+    /**
+     * Returns rocket of player1 which moves to left and right
+     * @return 
+     */
+    public Shape getRocketLeftRightPlayer1(){
+        
+        return rocketLeftRightPlayer1;
+    }
+    
+    /**
+     * Returns rocket of player2 which moves to left and right
+     * @return 
+     */
+    public Shape getRocketLeftRightPlayer2(){
+        
+        return rocketLeftRightPlayer2;
+    }
+    
+    /**
+     * Returns rocket of player1 which moves to up and down
+     * @return 
+     */
+    public Shape getRocketUpDownPlayer1(){
+        
+        return rocketUpDownPlayer1;
+    }
+    
+    /**
+     * Returns rocket of player2 which moves to up and down
+     * @return 
+     */
+    public Shape getRocketUpDownPlayer2(){
+        
+        return rocketUpDownPlayer2;
+    }
     
     /**
      * Returns margin of height of both left_right rockets of player1 & player2 from both sides of frame
@@ -283,7 +344,7 @@ public class Board
      */
     public void move(){
         
-        oval.move();
+        ball.move();
         
         rocketUpDownPlayer1.move();
         rocketUpDownPlayer2.move();
@@ -307,7 +368,7 @@ public class Board
                         0, 0 ,
                         null);
 
-        oval.paint(g);
+        ball.paint(g);
         
         rocketUpDownPlayer1.paint(g);
         rocketUpDownPlayer2.paint(g);
@@ -333,7 +394,7 @@ public class Board
             repaint();
             move();
             try {
-                Thread.sleep(5);
+                Thread.sleep(10);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
             }

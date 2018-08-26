@@ -25,28 +25,28 @@ import javax.swing.JPanel;
  *
  * @author TEBMahani(Tayebeh Esmaeili Beigi Mahani)
  * 
- * The <code>Oval</code> class is used to encapsulate Oval.
- * 
+ * The <code>OvalShape</code> class is used to encapsulate OvalShape.
+ *
  * Constructor Summary:
- * Oval()
- * 
+ * OvalShape()
+ *
  * border ovals :
  * **colored-border ovals
- * Oval(Board board ,
+ * OvalShape(Board board ,
             int x , int y , int width , int height ,
             Color color ,
             boolean isBorder)
- * 
+ *
  * full-colored ovals:
  * ** full-colored ovals
- * Oval(Board board ,
+ * OvalShape(Board board ,
                 int x , int y , int width , int height ,
                 Color color)
  *
  * Method Summary:
  * paint(Graphics g)
  */
-public class Oval
+public class OvalShape
                     extends Shape {
     
 // Static Final Values
@@ -73,12 +73,12 @@ public class Oval
     /**
      * Constructs a new <code>Oval</code> object.
      */
-    public Oval(){}
+    public OvalShape(){}
     
 // Colored-Border
     
     /**
-     * Constructs a new <code>Oval</code> object.
+     * Constructs a new <code>OvalShape</code> object.
      * It is a colored-border of an oval in (x,y) coordinate System on board.
      * Its width and height is defined by parameters.
      * It is designed to draw a colored-border of an oval but if isBorder==false, it just construct a full-colored oval.
@@ -90,7 +90,7 @@ public class Oval
      * @param color
      * @param isBorder 
      */
-    public Oval(Board board ,
+    public OvalShape(Board board ,
                 int x , int y , int width , int height ,
                 Color color ,
                 boolean isBorder){
@@ -105,7 +105,7 @@ public class Oval
 // Full-Colored Ovals
     
     /**
-     * Constructs a new <code>Oval</code> object.
+     * Constructs a new <code>OvalShape</code> object.
      * It is a full-colored of a color oval in (x,y) coordinate system on board.
      * Its width, height is defined by parameters.
      * @param board
@@ -115,7 +115,7 @@ public class Oval
      * @param height
      * @param color 
      */
-    public Oval(Board board ,
+    public OvalShape(Board board ,
                 int x , int y , int width , int height ,
                 Color color){
         

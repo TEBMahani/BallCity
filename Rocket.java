@@ -35,7 +35,7 @@ import java.awt.Color;
  * Method Summary:
  */
 public class Rocket
-                    extends Rectangle{
+                    extends RectangleShape{
     
 // Static Final Values
     

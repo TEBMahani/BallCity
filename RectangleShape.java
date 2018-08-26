@@ -25,25 +25,25 @@ import javax.swing.JPanel;
  *
  * @author TEBMahani(Tayebeh Esmaeili Beigi Mahani)
  * 
- * The <code>Rectangle</code> class is used to encapsulate rectangles.
- * 
+ * The <code>RectangleShape</code> class is used to encapsulate rectangles.
+ *
  * Constructor Summary:
- * Rectangle()
- * 
- *  border rectangles :
- *  ** colored-border 3DRectangle
- * Rectangle(Board board ,
+ * RectangleShape()
+ *
+ * border rectangles :
+ * ** colored-border 3DRectangle
+ * RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     boolean isRaised ,
                     Color color ,
                     boolean isBorder)
  * ** colored-border rectangle
- * Rectangle(Board board ,
+ * RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     Color color ,
                     boolean isBorder)
  * ** colored-border roundRectangle
- * Rectangle(Board board ,
+ * RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     int arcWidth , int arcHeight ,
                     Color color ,
@@ -51,24 +51,24 @@ import javax.swing.JPanel;
  *
  * full-colored rectangles :
  * ** full-colored 3DRectangle
- * Rectangle(Board board ,
+ * RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     boolean isRaised ,
                     Color color)
  * ** full-colored rectangle
- * Rectangle(Board board ,
+ * RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     Color color)
  * ** full-colored roundRectangle
- * Rectangle(Board board ,
+ * RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     int arcWidth , int arcHeight ,
                     Color color)
- * 
+ *
  * Method Summary:
  * paint(Graphics g)
  */
-public class Rectangle
+public class RectangleShape
                         extends Shape{
     
 // Static Final Values
@@ -100,12 +100,12 @@ public class Rectangle
     /**
      * Constructs a new <code>Rectangle</code> object.
      */
-    public Rectangle(){}
+    public RectangleShape(){}
     
 // Colored-Border Rectangles
     
     /**
-     * Constructs a new <code>Rectangle</code> object.
+     * Constructs a new <code>RectangleShape</code> object.
      * This is a colored-border of a color 3DRectangle in (x,y) coordinate system on board.
      * Its width, height is defined by parameters.
      * It designed to draw a colored-border of a 3DRectangle but
@@ -121,7 +121,7 @@ public class Rectangle
      * @param color
      * @param isBorder 
      */
-    public Rectangle(Board board ,
+    public RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     boolean isRaised ,
                     Color color ,
@@ -136,7 +136,7 @@ public class Rectangle
     }
     
     /**
-     * Constructs a new <code>Rectangle</code> object.
+     * Constructs a new <code>RectangleShape</code> object.
      * This is a colored-border of a color rectangle in (x,y) coordinate system on board.
      * Its width, height is defined by parameters.
      * It designed to draw a colored-border of a rectangle but if isBorder==false it would be a full-colored rectangle!
@@ -148,7 +148,7 @@ public class Rectangle
      * @param color
      * @param isBorder 
      */
-    public Rectangle(Board board ,
+    public RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     Color color ,
                     boolean isBorder){
@@ -161,7 +161,7 @@ public class Rectangle
     }
     
     /**
-     * Constructs a new <code>Rectangle</code> object.
+     * Constructs a new <code>RectangleShape</code> object.
      * This is a colored-border of a color roundRectangle in (x,y) coordinate system on board.
      * Its width, height, arcWidth, arcHeight is defined by parameters.
      * It designed to draw a colored-border of a roundRectangle but if isBorder==false it would be a full-colored roundRectangle!
@@ -175,7 +175,7 @@ public class Rectangle
      * @param color
      * @param isBorder 
      */
-    public Rectangle(Board board ,
+    public RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     int arcWidth , int arcHeight ,
                     Color color ,
@@ -192,7 +192,7 @@ public class Rectangle
 // Full-Colored Rectangles
     
     /**
-     * Constructs a new <code>Rectangle</code> object.
+     * Constructs a new <code>RectangleShape</code> object.
      * This is a full-colored 3DRectangle in (x,y) coordinate system on board.
      * Its width, height is defined by parameters.
      * It designed to draw a 3DRectangle, but if isRaised==false, it would be a full-colored rectangle!
@@ -204,7 +204,7 @@ public class Rectangle
      * @param isRaised
      * @param color 
      */
-    public Rectangle(Board board ,
+    public RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     boolean isRaised ,
                     Color color){
@@ -217,7 +217,7 @@ public class Rectangle
     }
     
     /**
-     * Constructs a new <code>Rectangle</code> object.
+     * Constructs a new <code>RectangleShape</code> object.
      * This object is a full-colored rectangle in (x,y) coordinate system on board.
      * Its width and height is defined by parameters.
      * @param board
@@ -227,7 +227,7 @@ public class Rectangle
      * @param height
      * @param color 
      */
-    public Rectangle(Board board ,
+    public RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     Color color){
         
@@ -237,7 +237,7 @@ public class Rectangle
     }
     
     /**
-     * Constructs a new <code>Rectangle</code> object.
+     * Constructs a new <code>RectangleShape</code> object.
      * This is a full-colored roundRectangle in (x,y) coordinate system on board.
      * Its width, height, arcWidth and arc height is defined by parameters.
      * It sets isRounded = true.
@@ -250,7 +250,7 @@ public class Rectangle
      * @param arcHeight
      * @param color 
      */
-    public Rectangle(Board board ,
+    public RectangleShape(Board board ,
                     int x , int y , int width , int height ,
                     int arcWidth , int arcHeight ,
                     Color color){
