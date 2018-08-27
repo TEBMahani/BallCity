@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package mathematicianshape;
+package ballcity;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -33,7 +33,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- *
+ * Ball City Game   Version 0.1
+ * 
  * @author TEBMahani(Tayebeh Esmaeili Beigi Mahani)
  *
  * The <code>Board</code> class is a subclass of JPanel which is used to
@@ -66,6 +67,9 @@ import javax.swing.JPanel;
  * setRocketHeightMarginUpDown(int rocketHeightMarginUpDown)
  * setRocketWidthMarginLeftRight(int rocketWidthMarginLeftRight)
  * setRocketWidthMarginUpDown(int rocketWidthMarginUpDown)
+ * 
+ * Inherited Methods:
+ * -
  */
 public class Board
                     extends JPanel
@@ -115,6 +119,9 @@ public class Board
                     rocketLeftRightPlayer2 ,
                     rocketUpDownPlayer1 ,
                     rocketUpDownPlayer2;
+    private Player
+                    player1 ,
+                    player2;
 
 // *************************************************************
 
@@ -129,6 +136,8 @@ public class Board
      * Constructs a new <code>Board</code> object.
      * It creates these objects:
      *  ball ,
+     *  player1 ,
+     *  player2 ,
      *  rocketLeftRightPlayer1 ,
      *  rocketLeftRightPlayer2
      *  rocketUpDownPlayer1 ,
@@ -161,7 +170,15 @@ public class Board
                                     // which sits on first right-top of frame.
         ball = new Ball(this ,
                         (frame.getWidth()/2) , (frame.getHeight()/2) , ballDim , ballDim ,
-                        Color.white);      
+                        Color.white);
+        //Creates a Player object for player1 which calculates and draws scores and levels of player1 in the same color of its rockets.
+        player1 = new Player(this ,
+                            0 , frame.getHeight()-10 ,
+                            PLAYER1);
+        //Creates a Player object for player2 which calculates and draws scores and levels of player1 in the same color of its rockets.
+        player2 = new Player(this ,
+                            0 , 13 ,
+                            PLAYER2);
 //Creates Rockets of players
 
         //Create a rocket for palyer1 which moves to left and right
@@ -340,7 +357,7 @@ public class Board
     public void keyTyped(KeyEvent keyEvent){}
     
     /**
-     * Invoke move() method of all of the shapes
+     * Invoke move() method of all of the shapes and calculateScoreLevel(int playerNumber) method of players
      */
     public void move(){
         
@@ -351,11 +368,14 @@ public class Board
         
         rocketLeftRightPlayer1.move();
         rocketLeftRightPlayer2.move();
+        
+        player1.calculateScoreLevel(PLAYER1);
+        player2.calculateScoreLevel(PLAYER2);
     }
 
     /**
      * It puts an image as background of this JPanel.
-     * It draws all of shapes which we created in constructor.
+     * It draws all of shapes and players which we created in constructor.
      * @param g
      */
     public void paint(Graphics g){
@@ -368,13 +388,16 @@ public class Board
                         0, 0 ,
                         null);
 
-        ball.paint(g);
+        ball.paint(g);     
         
         rocketUpDownPlayer1.paint(g);
         rocketUpDownPlayer2.paint(g);
         
         rocketLeftRightPlayer1.paint(g);
         rocketLeftRightPlayer2.paint(g);
+        
+        player1.paint(g);
+        player2.paint(g);
     }
     
     /**

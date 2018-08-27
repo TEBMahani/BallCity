@@ -15,12 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package mathematicianshape;
+package ballcity;
 
 import java.awt.Color;
 import java.util.Random;
 
 /**
+ * Ball City Game   Version 0.1
  *
  * @author TEBMahani(Tayebeh Esmaeili Beigi Mahani)
  * 
@@ -36,8 +37,24 @@ import java.util.Random;
  * isCollided(int rocketIdentifier)
  * makeA_B()
  * makeDirectMaking()
+ * makeNewBall()
  * move()
  * nextInt(int bound)
+ * 
+ * Inherited Methods:
+ *  From OvalShape class:
+ *  paint(Graphics g)
+ * 
+ *  Ftom Shape class:  
+ * getBounds()
+ * getHeight()
+ * getWidth()
+ * getX()
+ * getY()
+ * isValidMove()
+ * move()
+ * paint(Graphics g)
+ * setColor(Color color)
  */
 public class Ball
                     extends OvalShape{
@@ -101,7 +118,7 @@ public class Ball
      * @param rocketIdentifier
      * @return 
      */
-    private boolean isCollided(int rocketIdentifier){
+    public boolean isCollided(int rocketIdentifier){
         
         switch(rocketIdentifier){
             case Board.ROCKET_LEFT_RIGHT_PLAYER1 :
@@ -158,6 +175,16 @@ public class Ball
     }
     
     /**
+     * It defines new (x,y) in coordinate system and moveX and moveY to ball start moving on board after it's out of board.
+     */
+    public void makeNewBall(){
+        
+        x = board.getFrame().getWidth()/2;
+        y = board.getFrame().getHeight()/2;
+        makeA_B();
+    }
+    
+    /**
      * It defines how ball should run, whether it is collided to any rocket or not.
      */
     public void move(){
@@ -198,6 +225,8 @@ public class Ball
             } else{
                 moveY = makeDirectMaking();
             }
+        } else if(!isValidMove()){
+            makeNewBall();
         }
         
         x += moveX;

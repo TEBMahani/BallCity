@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mathematicianshape;
+package ballcity;
 
 import java.awt.Color;
 import javax.swing.JFrame;
 
 /**
+ * Ball City Game   Version 0.1
  *
  * @author TEBMahani(Tayebeh Esmaeili Beigi Mahani)
  * 
@@ -20,6 +21,9 @@ import javax.swing.JFrame;
  *
  * Method Summary:
  * main(String[] args)
+ * 
+ * Inherited Methods:
+ * -
  */
 
 public class Main

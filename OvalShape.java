@@ -15,13 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package mathematicianshape;
+package ballcity;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
 /**
+ * Ball City Game   Version 0.1
  *
  * @author TEBMahani(Tayebeh Esmaeili Beigi Mahani)
  * 
@@ -45,6 +46,18 @@ import javax.swing.JPanel;
  *
  * Method Summary:
  * paint(Graphics g)
+ * 
+ * Inherited Methods:
+ *  Ftom Shape class:  
+ * getBounds()
+ * getHeight()
+ * getWidth()
+ * getX()
+ * getY()
+ * isValidMove()
+ * move()
+ * paint(Graphics g)
+ * setColor(Color color)
  */
 public class OvalShape
                     extends Shape {

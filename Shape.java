@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package mathematicianshape;
+package ballcity;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -25,6 +25,7 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 /**
+ * Ball City Game   Version 0.1
  *
  * @author TEBMahani(Tayebeh Esmaeili Beigi Mahani)
  * 
@@ -38,10 +39,17 @@ import javax.swing.JPanel;
  *
  * Method Summary:
  * getBounds()
- * IsValidMove()
+ * getHeight()
+ * getWidth()
+ * getX()
+ * getY()
+ * isValidMove()
  * move()
  * paint(Graphics g)
  * setColor(Color color)
+ * 
+ * Inherited Methods:
+ * -
  */
 public class Shape {
     
@@ -124,10 +132,42 @@ public class Shape {
     }
     
     /**
+     * Returns height of shape.
+     * @return 
+     */
+    public int getHeight(){
+        return height;
+    }
+    
+    /**
+     * Returns width of shape.
+     * @return 
+     */
+    public int getWidth(){
+        return width;
+    }
+    
+    /**
+     * Returns x of shape in frame.
+     * @return 
+     */
+    public int getX(){
+        return x;
+    }
+    
+    /**
+     * Returns y of shape in frame.
+     * @return 
+     */
+    public int getY(){
+        return y;
+    }
+    
+    /**
      * Verify if shape moves inside of frame or not.
      * @return if shape is moving inside of frame it returns true, otherwise it returns false.
      */
-    public boolean IsValidMove(){
+    public boolean isValidMove(){
         if(((x+moveX)>board.getFrame().getWidth()-width) ||
                 ((x+moveX)<0) ||
                 ((y+moveY)>board.getFrame().getHeight()-height) ||
@@ -142,7 +182,7 @@ public class Shape {
      * Specify a default move for shape
      */
     public void move(){
-        if(!IsValidMove()){
+        if(!isValidMove()){
             if(((x+moveX)>board.getFrame().getWidth()-width)){
                 moveX = -1;
             } else if((x+moveX)<0){
